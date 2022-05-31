@@ -5,7 +5,7 @@
 [androidJvm]\
 class [EmptyExportSessionHelper](index.md) : [ExportSessionHelper](../-export-session-helper/index.md)
 
-Default [ExportSessionHelper](../-export-session-helper/index.md) implementation. It does not do anything. Use it if you need only export functionality.
+Default [ExportSessionHelper](../-export-session-helper/index.md) implementation. It does not do anything. Stub for the case when export api is being utilized without session logic.
 
 ## Constructors
 

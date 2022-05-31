@@ -7,6 +7,14 @@ data class [ExportedPreview](index.md)(imageUri: [Uri](https://developer.android
 
 Data class containing Uri to the exported video preview image
 
+## Parameters
+
+androidJvm
+
+| | |
+|---|---|
+| imageUri | Uri of the preview image |
+
 ## Constructors
 
 | | |

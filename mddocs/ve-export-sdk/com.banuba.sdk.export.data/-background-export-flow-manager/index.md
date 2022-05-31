@@ -5,7 +5,7 @@
 [androidJvm]\
 class [BackgroundExportFlowManager](index.md)(exportDataProvider: [ExportDataProvider](../../com.banuba.sdk.export.internal/-export-data-provider/index.md), sessionParamsProvider: SessionParamsProvider, exportSessionHelper: [ExportSessionHelper](../-export-session-helper/index.md), exportNotificationManager: [ExportNotificationManager](../-export-notification-manager/index.md), exportDir: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html), shouldClearSessionOnFinish: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html), publishManager: [PublishManager](../-publish-manager/index.md), errorParser: [ExportErrorParser](../-export-error-parser/index.md), exportBundleProvider: [ExportBundleProvider](../-export-bundle-provider/index.md)) : [ExportFlowManager](../-export-flow-manager/index.md)
 
-Default [ExportFlowManager](../-export-flow-manager/index.md) implementation which provides export in the background
+[ExportFlowManager](../-export-flow-manager/index.md) implementation which provides export in the background
 
 ## Constructors
 

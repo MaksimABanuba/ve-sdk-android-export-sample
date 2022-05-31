@@ -1,4 +1,4 @@
-//[ve-export-sdk](../../../index.md)/[com.banuba.sdk.export.data](../index.md)/[ExportMusicParams](index.md)/[videoVolume](video-volume.md)
+//[ve-export-sdk](../../../index.md)/[com.banuba.sdk.export.data](../index.md)/[ExportTaskParams](index.md)/[videoVolume](video-volume.md)
 
 # videoVolume
 
