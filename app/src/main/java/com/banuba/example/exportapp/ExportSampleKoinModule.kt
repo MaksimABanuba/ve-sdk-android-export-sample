@@ -2,15 +2,15 @@ package com.banuba.example.exportapp
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.banuba.example.exportapp.internal.EnableExportAudioProvider
 import com.banuba.example.exportapp.utils.StubImageLoader
 import com.banuba.sdk.core.domain.ImageLoader
-import com.banuba.sdk.core.media.DurationExtractor
 import com.banuba.sdk.export.data.BackgroundExportFlowManager
 import com.banuba.sdk.export.data.ExportFlowManager
 import com.banuba.sdk.export.data.ExportParamsProvider
 import com.banuba.sdk.export.data.ForegroundExportFlowManager
 import com.banuba.sdk.ve.R
-import com.banuba.sdk.ve.effects.WatermarkProvider
+import com.banuba.sdk.ve.effects.watermark.WatermarkProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -67,8 +67,10 @@ class ExportSampleKoinModule {
             StubImageLoader()
         }
 
-        single(named("videoDurationExtractor")) {
-            DurationExtractor(video = true)
+        single<EnableExportAudioProvider> {
+            object : EnableExportAudioProvider {
+                override var isEnable: Boolean = false
+            }
         }
     }
 }

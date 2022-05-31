@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.banuba.example.exportapp"
@@ -34,14 +34,14 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'io.insert-koin:koin-android:2.2.3'
     implementation 'io.insert-koin:koin-androidx-viewmodel:2.2.3'
 
-    def banubaSdkVersion = '1.22.0'
+    def banubaSdkVersion = '1.23.0'
     implementation "com.banuba.sdk:banuba-token-storage-sdk:${banubaSdkVersion}"
     implementation "com.banuba.sdk:core-sdk:${banubaSdkVersion}"
     implementation "com.banuba.sdk:ve-sdk:${banubaSdkVersion}"
