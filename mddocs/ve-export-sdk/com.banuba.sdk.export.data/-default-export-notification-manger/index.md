@@ -5,7 +5,7 @@
 [androidJvm]\
 class [DefaultExportNotificationManger](index.md)(context: [Context](https://developer.android.com/reference/kotlin/android/content/Context.html), notificationManager: [NotificationManager](https://developer.android.com/reference/kotlin/android/app/NotificationManager.html)) : [ExportNotificationManager](../-export-notification-manager/index.md)
 
-Default [ExportNotificationManager](../-export-notification-manager/index.md) implementation. It creates a separate channel for export notifications and sends notification on started, failed and successfully finished export.
+Default [ExportNotificationManager](../-export-notification-manager/index.md) implementation. It creates a separate channel for export notifications and sends notifications on started, failed and successfully finished export. Successful export notification has a PendingIntent to open an activity with the intent action provided in string resource R.string.export_action_name.
 
 ## Constructors
 

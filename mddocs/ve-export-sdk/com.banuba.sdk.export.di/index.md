@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [VeExportKoinModule](-ve-export-koin-module/index.md) | [androidJvm]<br>class [VeExportKoinModule](-ve-export-koin-module/index.md) |
+| [VeExportKoinModule](-ve-export-koin-module/index.md) | [androidJvm]<br>class [VeExportKoinModule](-ve-export-koin-module/index.md)<br>Class provides Koin module with default implementations |

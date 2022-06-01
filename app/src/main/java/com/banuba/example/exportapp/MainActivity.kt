@@ -19,29 +19,26 @@ import androidx.lifecycle.Observer
 import com.banuba.sdk.core.Rotation
 import com.banuba.sdk.core.domain.AspectRatioProvider
 import com.banuba.sdk.core.domain.VideoSourceType
+import com.banuba.sdk.core.effects.IVisualEffectDrawable
+import com.banuba.sdk.core.effects.RectParams
 import com.banuba.sdk.core.ext.copyFromAssetsToExternal
 import com.banuba.sdk.core.ext.isNullOrEmpty
 import com.banuba.sdk.core.media.DurationExtractor
-import com.banuba.sdk.effects.ve.time.speed.RapidEffect
-import com.banuba.sdk.effects.ve.time.speed.SlowMotionEffect
-import com.banuba.sdk.effects.ve.visual.vhs.VHSDrawable
+import com.banuba.sdk.effects.ve.VideoEffectsHelper
 import com.banuba.sdk.export.data.ExportFlowManager
-import com.banuba.sdk.ve.data.ExportMusicParams
-import com.banuba.sdk.ve.data.ExportResult
-import com.banuba.sdk.ve.data.ExportTaskParams
+import com.banuba.sdk.export.data.ExportResult
+import com.banuba.sdk.export.data.ExportTaskParams
 import com.banuba.sdk.ve.domain.TimeBundle
 import com.banuba.sdk.ve.domain.VideoRangeList
 import com.banuba.sdk.ve.domain.VideoRecordRange
 import com.banuba.sdk.ve.effects.Effects
-import com.banuba.sdk.ve.effects.RectParams
 import com.banuba.sdk.ve.effects.SpeedTimedEffect
 import com.banuba.sdk.ve.effects.VisualTimedEffect
-import com.banuba.sdk.ve.effects.`object`.GifObjectDrawable
-import com.banuba.sdk.ve.effects.`object`.TextObjectDrawable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import java.io.File
+import java.lang.Exception
 import java.util.Stack
 import java.util.UUID
 
@@ -68,14 +65,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val effects = generateEffects(totalVideoDuration)
 
-        val emptyMusicParams = ExportMusicParams(emptyList(), 1f)
-
         val coverFrameSize = Size(720, 1080)
 
         val exportTaskParams = ExportTaskParams(
             videoRanges = videoRanges,
             effects = effects,
-            exportMusicParams = emptyMusicParams,
+            musicEffects = emptyList(),
+            videoVolume = 1F,
             coverFrameSize = coverFrameSize,
             aspect = aspectRatioProvider.provide()        //by default provided aspect ratio = 9.0 / 16
         )
@@ -101,7 +97,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 exportResultVideoUri = exportResult.videoList.first().sourceUri
                 Toast.makeText(
                     this,
-                    "Export Success: ${exportResult.message}",
+                    "Export Success: ${exportResult.additionalExportData}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -205,7 +201,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      * To get full list of fx effects, check classes of BaseVisualEffectDrawable type.
      */
     private fun generateFxEffect(): VisualTimedEffect {
-        return VisualTimedEffect(effectDrawable = VHSDrawable())
+        val vhsDrawable = VideoEffectsHelper.takeAvailableFxEffects(applicationContext).find {
+            getString(it.nameRes) == "VHS"
+        }?.provide() ?: throw Exception("VHS video effect is not available!")
+        if (vhsDrawable !is IVisualEffectDrawable) throw TypeCastException("Drawable is not IVisualEffectDrawable type!")
+        return VisualTimedEffect(effectDrawable = vhsDrawable)
     }
 
     /**
@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         return VisualTimedEffect(
-            effectDrawable = TextObjectDrawable(UUID.randomUUID(), bitmap, rectParams)
+            effectDrawable = VideoEffectsHelper.createTextEffect(UUID.randomUUID(), bitmap, rectParams)
         )
     }
 
@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         return VisualTimedEffect(
-            effectDrawable = GifObjectDrawable(UUID.randomUUID(), stickerUri, rectParams)
+            effectDrawable = VideoEffectsHelper.createGifEffect(UUID.randomUUID(), stickerUri, rectParams)
         )
     }
 
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      */
     private fun createRapidEffect(videoDuration: Long): SpeedTimedEffect {
         val videoMid = videoDuration.toInt() / 2
-        val speedEffect = RapidEffect()
+        val speedEffect = VideoEffectsHelper.createSpeedEffect(2F)
         return SpeedTimedEffect(
             effectDrawable = speedEffect,
             startTimeBundle = TimeBundle(0, 0),
@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      */
     private fun createSlowMotionEffect(videoDuration: Long): SpeedTimedEffect {
         val videoMid = videoDuration.toInt() / 2
-        val speedEffect = SlowMotionEffect()
+        val speedEffect = VideoEffectsHelper.createSpeedEffect(0.5F)
         return SpeedTimedEffect(
             effectDrawable = speedEffect,
             startTimeBundle = TimeBundle(0, videoMid),

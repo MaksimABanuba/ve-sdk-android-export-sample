@@ -5,7 +5,7 @@
 [androidJvm]\
 class [DefaultExportErrorParser](index.md) : [ExportErrorParser](../-export-error-parser/index.md)
 
-Default implementation of [ExportErrorParser](../-export-error-parser/index.md)
+Default implementation of [ExportErrorParser](../-export-error-parser/index.md). Transforms exception into internal [ExportError](../-export-error/index.md).
 
 ## Constructors
 

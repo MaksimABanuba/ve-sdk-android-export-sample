@@ -3,7 +3,7 @@
 # SimpleExportParamsProvider
 
 [androidJvm]\
-class [SimpleExportParamsProvider](index.md)(exportDir: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html), mediaFileNameHelper: MediaFileNameHelper, watermarkBuilder: WatermarkBuilder, exportAudioProvider: [EnableExportAudioProvider](../-enable-export-audio-provider/index.md), exportVideoResolutionProvider: [ExportVideoResolutionProvider](../-export-video-resolution-provider/index.md)) : [ExportParamsProvider](../-export-params-provider/index.md)
+class [SimpleExportParamsProvider](index.md)(exportDir: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html), mediaFileNameHelper: MediaFileNameHelper, watermarkBuilder: WatermarkBuilder) : [ExportParamsProvider](../-export-params-provider/index.md)
 
 Default [ExportParamsProvider](../-export-params-provider/index.md) implementation. It requests single exported video and configures request parameters by utilizing [ExportParams.Builder](../-export-params/-builder/index.md).
 
@@ -11,7 +11,7 @@ Default [ExportParamsProvider](../-export-params-provider/index.md) implementati
 
 | | |
 |---|---|
-| [SimpleExportParamsProvider](-simple-export-params-provider.md) | [androidJvm]<br>fun [SimpleExportParamsProvider](-simple-export-params-provider.md)(exportDir: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html), mediaFileNameHelper: MediaFileNameHelper, watermarkBuilder: WatermarkBuilder, exportAudioProvider: [EnableExportAudioProvider](../-enable-export-audio-provider/index.md), exportVideoResolutionProvider: [ExportVideoResolutionProvider](../-export-video-resolution-provider/index.md)) |
+| [SimpleExportParamsProvider](-simple-export-params-provider.md) | [androidJvm]<br>fun [SimpleExportParamsProvider](-simple-export-params-provider.md)(exportDir: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html), mediaFileNameHelper: MediaFileNameHelper, watermarkBuilder: WatermarkBuilder) |
 
 ## Functions
 

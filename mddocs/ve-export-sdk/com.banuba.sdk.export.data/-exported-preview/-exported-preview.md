@@ -4,3 +4,11 @@
 
 [androidJvm]\
 fun [ExportedPreview](-exported-preview.md)(imageUri: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html))
+
+## Parameters
+
+androidJvm
+
+| | |
+|---|---|
+| imageUri | Uri of the preview image |
