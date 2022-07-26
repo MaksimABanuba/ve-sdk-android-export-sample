@@ -19,7 +19,7 @@ class ExportSampleKoinModule {
 
     val module = module {
 
-        single<ExportFlowManager>(named("foregroundExportFlowManager"), override = true) {
+        single<ExportFlowManager>(named("foregroundExportFlowManager")) {
             ForegroundExportFlowManager(
                 exportDataProvider = get(),
                 sessionParamsProvider = get(),
@@ -32,7 +32,7 @@ class ExportSampleKoinModule {
             )
         }
 
-        single<ExportFlowManager>(named("backgroundExportFlowManager"), override = true) {
+        single<ExportFlowManager>(named("backgroundExportFlowManager")) {
             BackgroundExportFlowManager(
                 exportDataProvider = get(),
                 sessionParamsProvider = get(),
@@ -45,7 +45,7 @@ class ExportSampleKoinModule {
             )
         }
 
-        factory<ExportParamsProvider>(override = true) {
+        factory<ExportParamsProvider> {
             CustomExportParamsProvider(
                 exportDir = get(named("exportDir")),
                 mediaFileNameHelper = get(),
@@ -54,7 +54,7 @@ class ExportSampleKoinModule {
             )
         }
 
-        single<WatermarkProvider>(override = true) {
+        single<WatermarkProvider> {
             object : WatermarkProvider {
                 override fun getWatermarkBitmap(): Bitmap? = BitmapFactory.decodeResource(
                     androidContext().resources,
@@ -63,7 +63,7 @@ class ExportSampleKoinModule {
             }
         }
 
-        single<ImageLoader>(override = true) {
+        single<ImageLoader> {
             StubImageLoader()
         }
 
