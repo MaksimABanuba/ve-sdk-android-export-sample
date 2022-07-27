@@ -62,7 +62,7 @@ Banuba token should be put [here](https://github.com/Banuba/ve-sdk-android-expor
 Please, specify a list of dependencies as in [app/build.gradle](app/build.gradle) file to integrate export functionality of Export API.
 
 ``` groovy
-def banubaSdkVersion = '1.23.1'
+def banubaSdkVersion = '1.24.1'
 implementation "com.banuba.sdk:ffmpeg:4.4"
 implementation "com.banuba.sdk:banuba-token-storage-sdk:${banubaSdkVersion}"
 implementation "com.banuba.sdk:core-sdk:${banubaSdkVersion}"
@@ -96,6 +96,7 @@ override fun onCreate() {
     super.onCreate()
     startKoin {
         androidContext(this@ExportApp)
+        allowOverride(true)
         modules(
             VeSdkKoinModule().module,
             VeExportKoinModule().module,
@@ -121,7 +122,7 @@ Export can work in foreground or background mode. By default export works in for
 class ExportSampleKoinModule() {
     val module = module {
         ...
-         single(override = true) {
+        single<ExportFlowManager>(named("backgroundExportFlowManager")) {
             BackgroundExportFlowManager(
                 exportDataProvider = get(),
                 sessionParamsProvider = get(),
@@ -171,6 +172,7 @@ To start the export, you need to pass object of `ExportTaskParams` class as an a
  *  account capabilities of the device)
  * @param additionalExportData any Parcelable object that may be received
  *  in [ExportResult.Success.additionalExportData] parameter
+ * @param doOnStart lambda the will be invoked in the very beginning of the export process
  */
 data class ExportTaskParams(
     val videoRanges: VideoRangeList,
@@ -181,7 +183,8 @@ data class ExportTaskParams(
     val coverFrameSize: Size,
     val aspect: AspectRatio,
     val videoResolution: VideoResolution.Exact? = null,
-    var additionalExportData: Parcelable? = null
+    var additionalExportData: Parcelable? = null,
+    var doOnStart: (() -> Unit)? = null
 )
 ```
 Example of creating a `ExportTaskParams` object can be found [here](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L70).
