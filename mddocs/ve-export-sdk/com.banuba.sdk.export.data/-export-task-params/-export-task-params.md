@@ -3,7 +3,7 @@
 # ExportTaskParams
 
 [androidJvm]\
-fun [ExportTaskParams](-export-task-params.md)(videoRanges: VideoRangeList, effects: Effects, musicEffects: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;MusicEffect&gt;, videoVolume: [Float](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html), coverUri: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html) = Uri.EMPTY, coverFrameSize: [Size](https://developer.android.com/reference/kotlin/android/util/Size.html), aspect: AspectRatio, videoResolution: VideoResolution.Exact? = null, additionalExportData: [Parcelable](https://developer.android.com/reference/kotlin/android/os/Parcelable.html)? = null)
+fun [ExportTaskParams](-export-task-params.md)(videoRanges: VideoRangeList, effects: Effects, musicEffects: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;MusicEffect&gt;, videoVolume: [Float](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html), coverUri: [Uri](https://developer.android.com/reference/kotlin/android/net/Uri.html) = Uri.EMPTY, coverFrameSize: [Size](https://developer.android.com/reference/kotlin/android/util/Size.html), aspect: AspectRatio, videoResolution: VideoResolution.Exact? = null, additionalExportData: [Parcelable](https://developer.android.com/reference/kotlin/android/os/Parcelable.html)? = null, doOnStart: () -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)? = null)
 
 ## Parameters
 
@@ -20,3 +20,4 @@ androidJvm
 | aspect | aspect ratio applied to the exported video |
 | videoResolution | optional VideoResolution value applied to the exported video. By default the optimal size will be set automatically (it is calculated with taking into account capabilities of the device) |
 | additionalExportData | any Parcelable object that may be received in [ExportResult.Success.additionalExportData](../-export-result/-success/additional-export-data.md) parameter |
+| doOnStart | lambda the will be invoked in the very beginning of the export process |

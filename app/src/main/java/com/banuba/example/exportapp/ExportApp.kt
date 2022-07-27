@@ -14,6 +14,7 @@ class ExportApp : Application() {
 
         startKoin {
             androidContext(this@ExportApp)
+            allowOverride(true)
             modules(
                 VeSdkKoinModule().module,
                 VeExportKoinModule().module,
