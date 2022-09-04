@@ -12,6 +12,7 @@ class ExportApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        // Initialize DI in your Application class to configure VE Export API.
         startKoin {
             androidContext(this@ExportApp)
             allowOverride(true)

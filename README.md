@@ -45,7 +45,7 @@ This is what you need to run the Export API
 
 ## Export video quality params
 The quality and quantity of exported videos can be configured using `ExportParamsProvider` interface. Just put a required video quality into `ExportManager.Params.Builder` constructor. Check out an [**example**](https://vebanuba.notion.site/Configure-export-params-93e66c89d491449ea06cf6f24b739697), where multiple video files are exported: the first and the second with the most suitable quality params (defined by `sizeProvider.provideOptimalExportVideoSize()` method) and the third with 360p quality (defined by using an Export API constant `VideoResolution.VGA360`).
-This sample has a custom implementation [ExportParamsProvider](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/CustomExportParamsProvider.kt).
+This sample has a custom implementation [ExportParamsProvider](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/custom/CustomExportParamsProvider.kt).
 
 See the **default bitrate (kb/s)** for exported video (without audio) in the table below:
 | 360p(360 x 640) | 480p(480 x 854) | 540p(540 x 960) | HD(720 x 1280) | FHD(1080 x 1920) |

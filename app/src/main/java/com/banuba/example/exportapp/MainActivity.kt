@@ -1,11 +1,6 @@
 package com.banuba.example.exportapp
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Matrix
-import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Size
@@ -13,80 +8,45 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.banuba.sdk.core.Rotation
 import com.banuba.sdk.core.domain.AspectRatioProvider
 import com.banuba.sdk.core.domain.VideoSourceType
-import com.banuba.sdk.core.effects.IVisualEffectDrawable
-import com.banuba.sdk.core.effects.RectParams
-import com.banuba.sdk.core.ext.copyFromAssetsToExternal
 import com.banuba.sdk.core.ext.isNullOrEmpty
 import com.banuba.sdk.core.media.DurationExtractor
-import com.banuba.sdk.effects.ve.VideoEffectsHelper
 import com.banuba.sdk.export.data.ExportFlowManager
 import com.banuba.sdk.export.data.ExportResult
 import com.banuba.sdk.export.data.ExportTaskParams
-import com.banuba.sdk.ve.domain.TimeBundle
 import com.banuba.sdk.ve.domain.VideoRangeList
 import com.banuba.sdk.ve.domain.VideoRecordRange
-import com.banuba.sdk.ve.effects.Effects
-import com.banuba.sdk.ve.effects.SpeedTimedEffect
-import com.banuba.sdk.ve.effects.VisualTimedEffect
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import java.io.File
-import java.lang.Exception
-import java.util.Stack
-import java.util.UUID
 
+/**
+ * The sample demonstrates how to start export video using Export API in background or foreground modes.
+ * - Background - when the user can interact with UI
+ * - Foreground - when the user has to wait when export finishes.
+ * Since export process requires initial video files we made quick integration with Gallery
+ * that allows to choose video files and apply it in in export.
+ */
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
+    private var isBackgroundExport = true
+    private var exportResultVideoUri = Uri.EMPTY
+
+    // Step1
+    // Declare ExportFlowManager for your app - foreground or background(user can interact with UI).
     private val backgroundExportFlowManager: ExportFlowManager by inject(named("backgroundExportFlowManager"))
     private val foregroundExportFlowManager: ExportFlowManager by inject(named("foregroundExportFlowManager"))
     private val aspectRatioProvider: AspectRatioProvider by inject()
 
-    private var isBackgroundExport = true
-
-    private var exportResultVideoUri = Uri.EMPTY
-
-    private val getPredefinedVideos = registerForActivityResult(
-        ActivityResultContracts.GetMultipleContents()
-    ) { videosUri ->
-        if (videosUri.isNullOrEmpty()) return@registerForActivityResult
-
-        progressVisible(true)
-
-        val videoRanges = generateVideoRangeList(videosUri)
-
-        val totalVideoDuration = videoRanges.data.sumOf { it.durationMs }
-
-        val effects = generateEffects(totalVideoDuration)
-
-        val coverFrameSize = Size(720, 1080)
-
-        val exportTaskParams = ExportTaskParams(
-            videoRanges = videoRanges,
-            effects = effects,
-            musicEffects = emptyList(),
-            videoVolume = 1F,
-            coverFrameSize = coverFrameSize,
-            aspect = aspectRatioProvider.provide()        //by default provided aspect ratio = 9.0 / 16
-        )
-
-        if (isBackgroundExport) {
-            backgroundExportFlowManager.startExport(exportTaskParams)
-        } else {
-            foregroundExportFlowManager.startExport(exportTaskParams)
-        }
-    }
-
+    // Step 2
+    // Create result observer - all export execution results are delivered here.
     private val exportResultObserver = Observer<ExportResult> { exportResult ->
         when (exportResult) {
-            is ExportResult.Inactive, is ExportResult.Stopped -> progressVisible(false)
-
             is ExportResult.Progress -> {
                 previewImageView.setImageURI(exportResult.preview)
                 progressVisible(true)
@@ -110,15 +70,76 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            is ExportResult.Inactive, is ExportResult.Stopped -> progressVisible(false)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Step 3
+        // Observe export results depends on flow - foreground or background
         backgroundExportFlowManager.resultData.observe(this, exportResultObserver)
         foregroundExportFlowManager.resultData.observe(this, exportResultObserver)
 
+        initViews()
+    }
+
+    /**
+     * Step 4
+     * Prepare VideoRangeList to start export.
+     * It requires playFromMs and playToMs arguments to be set when creating the VideoRecordRange object.
+     * Code below uses a range from 0 to video length for each video.
+     */
+    private fun prepareVideoRages(videosUri: List<Uri>): VideoRangeList {
+        val videoRecords = videosUri.map { fileUri ->
+            val videoDuration = DurationExtractor().extractDurationMilliSec(this, fileUri)
+            val videoSpeed = 1f
+            VideoRecordRange(
+                sourceUri = fileUri,            //mandatory, uri of video file
+                durationMs = videoDuration,     //mandatory, duration of video
+                speed = videoSpeed,             //mandatory, video playback speed
+                playFromMs = 0,                 //optional, by default equals 0
+                playToMs = videoDuration,       //optional, by default equals duration of video,
+                rotation = Rotation.ROTATION_0,  //optional, by default ROTATION_0
+                type = VideoSourceType.GALLERY  //mandatory, type of video source (gallery, camera, slideshow)
+            )
+        }
+        return VideoRangeList(videoRecords)
+    }
+
+    // Step 5
+    // Start Export flow!
+    private fun startExportFlow(videosUri: List<Uri>) {
+        val videoRanges = prepareVideoRages(videosUri)
+
+        val totalVideoDuration = videoRanges.data.sumOf { it.durationMs }
+
+        val effects = ExportEffectsProvider().provideEffects(applicationContext, totalVideoDuration)
+
+        val coverFrameSize = Size(720, 1280)
+
+        val exportTaskParams = ExportTaskParams(
+            videoRanges = videoRanges,
+            effects = effects,
+            musicEffects = emptyList(),
+            videoVolume = 1F,
+            coverFrameSize = coverFrameSize,
+            aspect = aspectRatioProvider.provide()        //by default provided aspect ratio = 9.0 / 16
+        )
+
+        if (isBackgroundExport) {
+            backgroundExportFlowManager.startExport(exportTaskParams)
+        } else {
+            foregroundExportFlowManager.startExport(exportTaskParams)
+        }
+    }
+
+    /**
+     * Sample specific code.
+     */
+    private fun initViews() {
         backgroundExportBtn.setOnClickListener {
             pickPredefinedVideos(true)
         }
@@ -142,174 +163,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    /**
-     * You can set custom video ranges for your purposes. This requires
-     * playFromMs and playToMs arguments to be set when creating the VideoRecordRange object.
-     * Code below uses a range from 0 to video length for each video.
-     */
-    private fun generateVideoRangeList(videosUri: List<Uri>): VideoRangeList {
-        val videoRecords = videosUri.map { fileUri ->
-            val videoDuration = DurationExtractor().extractDurationMilliSec(this, fileUri)
-            val videoSpeed = 1f
-            VideoRecordRange(
-                sourceUri = fileUri,            //mandatory, uri of video file
-                durationMs = videoDuration,     //mandatory, duration of video
-                speed = videoSpeed,             //mandatory, video playback speed
-                playFromMs = 0,                 //optional, by default equals 0
-                playToMs = videoDuration,       //optional, by default equals duration of video,
-                rotation = Rotation.ROTATION_0,  //optional, by default ROTATION_0
-                type = VideoSourceType.GALLERY  //mandatory, type of video source (gallery, camera, slideshow)
-            )
-        }
-        return VideoRangeList(videoRecords)
-    }
-
-    /**
-     * Effects are generated that are applied to the video. The code below
-     * creates three visual effects: text, gif and fx. All effects are applied to the entire length
-     * of the video.
-     */
-    private fun generateEffects(totalVideoDuration: Long): Effects {
-        val effectText = createTextVisualEffect()
-        val effectGif = createGifVisualEffect()
-        val effectFx = generateFxEffect()
-
-        // Visual effects i.e. VHS, Glitch are not fully supported yet
-        val visualStack = Stack<VisualTimedEffect>().apply {
-            add(effectText)
-            add(effectGif)
-            add(effectFx)
-        }
-
-        val rapidEffect = createRapidEffect(totalVideoDuration)
-        val slowMotionEffect = createSlowMotionEffect(totalVideoDuration)
-
-        //Use empty stack because speed effects are not fully supported yet.
-        val empty = Stack<SpeedTimedEffect>().apply {
-            add(rapidEffect)
-            add(slowMotionEffect)
-        }
-
-        return Effects(
-            visualStack = visualStack,
-            speedStack = empty
-        )
-    }
-
-    /**
-     * Creates fx effect.
-     * To get full list of fx effects, check classes of BaseVisualEffectDrawable type.
-     */
-    private fun generateFxEffect(): VisualTimedEffect {
-        val vhsDrawable = VideoEffectsHelper.takeAvailableFxEffects(applicationContext).find {
-            getString(it.nameRes) == "VHS"
-        }?.provide() ?: throw Exception("VHS video effect is not available!")
-        if (vhsDrawable !is IVisualEffectDrawable) throw TypeCastException("Drawable is not IVisualEffectDrawable type!")
-        return VisualTimedEffect(effectDrawable = vhsDrawable)
-    }
-
-    /**
-     * Creates a text effect. The text is created using a canvas and converted to a bitmap.
-     * RectParams are used to set the coordinates, size, scale and rotation of the effect.
-     */
-    private fun createTextVisualEffect(): VisualTimedEffect {
-        val bitmap = Bitmap.createBitmap(800, 150, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.color = Color.BLACK
-        paint.style = Paint.Style.FILL
-        paint.textSize = 64f
-        canvas.drawText("Hello, World!", 0f, 60f, paint)
-
-        val rectParams = RectParams().apply {
-            setCoordinates(150f, 300f, bitmap.width.toFloat(), bitmap.height.toFloat(), 0.8f, 0f)
-        }
-
-        return VisualTimedEffect(
-            effectDrawable = VideoEffectsHelper.createTextEffect(UUID.randomUUID(), bitmap, rectParams)
-        )
-    }
-
-    /**
-     * Creates a gif(sticker) effect. Gif file must be downloaded to be used as an effect.
-     * The code below uses gif from assets.
-     * RectParams are used to set the coordinates, size, scale and rotation of the bitmap.
-     */
-    private fun createGifVisualEffect(): VisualTimedEffect {
-        val stickerUri = copyFromAssetsToExternal("example.gif").toUri()
-
-        val rectParams = RectParams().apply {
-            setCoordinates(200f, 700f, 361f, 277f, 1f, 20f)
-        }
-
-        return VisualTimedEffect(
-            effectDrawable = VideoEffectsHelper.createGifEffect(UUID.randomUUID(), stickerUri, rectParams)
-        )
-    }
-
-    /**
-     * Creates Rapid speed effect from the beginning to the middle of the video
-     */
-    private fun createRapidEffect(videoDuration: Long): SpeedTimedEffect {
-        val videoMid = videoDuration.toInt() / 2
-        val speedEffect = VideoEffectsHelper.createSpeedEffect(2F)
-        return SpeedTimedEffect(
-            effectDrawable = speedEffect,
-            startTimeBundle = TimeBundle(0, 0),
-            startTotal = 0,
-            endTimeBundle = TimeBundle(0, videoMid),
-            endTotal = videoMid
-        )
-    }
-
-    /**
-     * Creates SlowMotion speed effect from the middle to the end of the video
-     */
-    private fun createSlowMotionEffect(videoDuration: Long): SpeedTimedEffect {
-        val videoMid = videoDuration.toInt() / 2
-        val speedEffect = VideoEffectsHelper.createSpeedEffect(0.5F)
-        return SpeedTimedEffect(
-            effectDrawable = speedEffect,
-            startTimeBundle = TimeBundle(0, videoMid),
-            startTotal = videoMid,
-            endTimeBundle = TimeBundle(0, videoDuration.toInt()),
-            endTotal = videoDuration.toInt()
-        )
-    }
-
-
-    private fun RectParams.setCoordinates(
-        x: Float,
-        y: Float,
-        width: Float,
-        height: Float,
-        scale: Float,
-        rotation: Float
-    ) {
-        val points = floatArrayOf(
-            x, y,
-            x + width, y,
-            x, y + height,
-            x + width, y + height
-        )
-        Matrix().apply {
-            reset()
-            postScale(scale, scale, x + width / 2, y + height / 2)
-            postRotate(rotation, x + width / 2, y + height / 2)
-            mapPoints(points)
-        }
-        set(
-            points[0], points[1],
-            points[2], points[3],
-            points[4], points[5],
-            points[6], points[7]
-        )
-    }
-
     private fun pickPredefinedVideos(isBackground: Boolean) {
         previewImageView.setImageURI(null)
         isBackgroundExport = isBackground
-        getPredefinedVideos.launch("video/*")
+
+        registerForActivityResult(
+            ActivityResultContracts.GetMultipleContents()
+        ) { videosUri ->
+            if (videosUri.isNullOrEmpty()) return@registerForActivityResult
+
+            progressVisible(true)
+
+            startExportFlow(videosUri)
+        }.launch("video/*")
     }
 
     private fun progressVisible(isExporting: Boolean) {

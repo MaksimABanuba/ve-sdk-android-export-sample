@@ -1,8 +1,8 @@
-package com.banuba.example.exportapp
+package com.banuba.example.exportapp.custom
 
 import android.net.Uri
 import androidx.core.net.toFile
-import com.banuba.example.exportapp.internal.EnableExportAudioProvider
+import com.banuba.example.exportapp.EnableExportAudioProvider
 import com.banuba.sdk.core.VideoResolution
 import com.banuba.sdk.core.ext.toPx
 import com.banuba.sdk.core.media.MediaFileNameHelper
@@ -28,27 +28,31 @@ class CustomExportParamsProvider(
         musicEffects: List<MusicEffect>,
         videoVolume: Float
     ): List<ExportParams> {
-        val exportSessionDir = exportDir.toFile().apply {
+        // Define your destination directory where video should be stored
+        val exportDestDir = exportDir.toFile().apply {
             deleteRecursively()
             mkdirs()
         }
 
-        val extraSoundtrackUri = if (exportAudioProvider.isEnable) {
-            Uri.parse(exportSessionDir.toString()).buildUpon()
+        // Define separate audio track
+        val separateAudioUri = if (exportAudioProvider.isEnable) {
+            Uri.parse(exportDestDir.toString()).buildUpon()
                 .appendPath(mediaFileNameHelper.generateExportSoundtrackFileName())
                 .build()
         } else Uri.EMPTY
 
+        // Defines params to export HD video with watermark.
+        // You can add more ExportParams to export more video files with different parameters.
         val paramsHdWithWatermark =
             ExportParams.Builder(VideoResolution.Exact.HD)
                 .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BottomRight(marginRightPx = 16.toPx)))
                 .fileName("export_default")
                 .debugEnabled(true)
                 .videoRangeList(videoRangeList)
-                .destDir(exportSessionDir)
+                .destDir(exportDestDir)
                 .musicEffects(musicEffects)
                 .volumeVideo(videoVolume)
-                .extraAudioFile(extraSoundtrackUri)
+                .extraAudioFile(separateAudioUri)
                 .build()
 
         return listOf(paramsHdWithWatermark)
