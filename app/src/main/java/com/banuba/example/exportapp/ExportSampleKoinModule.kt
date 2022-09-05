@@ -5,13 +5,11 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
-import com.banuba.example.exportapp.custom.CustomExportParamsProvider
 import com.banuba.sdk.core.domain.ImageLoader
 import com.banuba.sdk.export.data.BackgroundExportFlowManager
 import com.banuba.sdk.export.data.ExportFlowManager
 import com.banuba.sdk.export.data.ExportParamsProvider
 import com.banuba.sdk.export.data.ForegroundExportFlowManager
-import com.banuba.sdk.ve.R
 import com.banuba.sdk.ve.effects.watermark.WatermarkProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -29,7 +27,7 @@ class ExportSampleKoinModule {
     val module = module {
 
         /**
-         * Override to run export in foreground.
+         * Override to run export in foreground mode.
          */
         single<ExportFlowManager>(named("foregroundExportFlowManager")) {
             ForegroundExportFlowManager(
@@ -45,7 +43,7 @@ class ExportSampleKoinModule {
         }
 
         /**
-         * Override to run export in background.
+         * Override to run export in background mode.
          */
         single<ExportFlowManager>(named("backgroundExportFlowManager")) {
             BackgroundExportFlowManager(

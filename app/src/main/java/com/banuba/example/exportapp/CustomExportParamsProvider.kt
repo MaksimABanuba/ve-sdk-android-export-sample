@@ -1,8 +1,7 @@
-package com.banuba.example.exportapp.custom
+package com.banuba.example.exportapp
 
 import android.net.Uri
 import androidx.core.net.toFile
-import com.banuba.example.exportapp.EnableExportAudioProvider
 import com.banuba.sdk.core.VideoResolution
 import com.banuba.sdk.core.ext.toPx
 import com.banuba.sdk.core.media.MediaFileNameHelper
@@ -41,12 +40,11 @@ class CustomExportParamsProvider(
                 .build()
         } else Uri.EMPTY
 
-        // Defines params to export HD video with watermark.
-        // You can add more ExportParams to export more video files with different parameters.
-        val paramsHdWithWatermark =
+        // Defines params for the first video to export with HD video resolution and watermark.
+        val firstHdWithWatermark =
             ExportParams.Builder(VideoResolution.Exact.HD)
                 .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BottomRight(marginRightPx = 16.toPx)))
-                .fileName("export_default")
+                .fileName("first_export_default")
                 .debugEnabled(true)
                 .videoRangeList(videoRangeList)
                 .destDir(exportDestDir)
@@ -55,6 +53,17 @@ class CustomExportParamsProvider(
                 .extraAudioFile(separateAudioUri)
                 .build()
 
-        return listOf(paramsHdWithWatermark)
+        // Defines params for the second video to export with 360p video resolution and watermark.
+        val secondLowQualityParams =
+            ExportParams.Builder(VideoResolution.Exact.VGA360)
+                .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.TopLeft(marginTopPx = 16.toPx)))
+                .fileName("second_export_default")
+                .debugEnabled(true)
+                .videoRangeList(videoRangeList)
+                .destDir(exportDestDir)
+                .volumeVideo(videoVolume)
+                .build()
+
+        return listOf(firstHdWithWatermark, secondLowQualityParams)
     }
 }

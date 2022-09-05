@@ -1,25 +1,50 @@
 [![](https://www.banuba.com/hubfs/Banuba_November2018/Images/Banuba%20SDK.png)](https://www.banuba.com/video-editor-sdk)
 
-# Android Banuba AI Video Editor Export API Integration Sample
+# Android AI Video Editor Export API
 
-This repository contains a sample of using AI Video Editor Export API in your mobile app.
+This repository demonstrates how to use AI Video Editor Export API in your Android app.
 
-Export API can apply configurable effects to video and export that video with specified parameters. Export API has no UI, hence cannot display applied effects.
-
-It contains the must-have video editing features such as adding video effects, gif/text, watermark, speed effects, color effects, AR effects to the exported video with a predefined position, duration and period. It can also edit the aspect ratio. Supports export in foreground or background mode.
-
+- [Features](#Features)
 - [Requirements](#Requirements)
 - [Dependencies](#Dependencies)
-- [Supported media formats](#Supported-media-formats)
-- [Export video quality params](#Export-video-quality-params)
-- [Token](#Token)
-- [Getting Started](#Getting-Started)
-    + [Add dependencies](#Add-dependencies)
-    + [Configure DI](#Configure-DI)
-    + [Configure export flow](#Configure-export-flow)
-    + [Configure ExportFlowManager](#Configure-ExportFlowManager)
-    + [Configure watermark](#Configure-watermark)
-    + [Configure overlay effects](#Configure-overlay-effects)
+- [Integration](#Integration)
+- [API Reference](#API-Reference)
+
+## Features
+
+Export API can apply configurable effects to video and export that video with specified parameters.
+
+| Feature             |                                      |
+|---------------------|--------------------------------------|
+| video formats       | .mp4, .mov, .m4v                     |
+| video quality       | 360p, 480p, 540p, 720p, 1080p        |
+| audio formats       | .mp3, .aac, .wav, .m4a, .flac, .aiff |
+| modes               | background, foreground               |
+| has UI              | :x:                                  |
+| multiples files     | :white_check_mark:                   |
+| visual effects      | :white_check_mark:                   |
+| time effects        | :white_check_mark:                   |
+| color effects       | :white_check_mark:                   |
+| AR effects          | :white_check_mark:                   |
+| text                | :white_check_mark:                   |
+| gif                 | :white_check_mark:                   |
+| watermark           | :white_check_mark:                   |
+| custom aspect ratio | :white_check_mark:                   |
+
+<br>
+
+__Supported video quality__
+
+| Quality          | Bitrate(kb/s) |
+|------------------|---------------|
+| 240p(240 x 352)  | 1000          |
+| 360p(360 x 640)  | 1200          |
+| 480p(480 x 854)  | 2000          |
+| 540p(540 x 960)  | 2400          |
+| HD(720 x 1280)   | 4000          |
+| FHD(1080 x 1920) | 6400          |
+| QHD(1440 x 2560) | 10000         |
+| UHD(2160 x 3860) | 20000         |
 
 ## Requirements
 This is what you need to run the Export API
@@ -38,204 +63,37 @@ This is what you need to run the Export API
 
 [Please see all used dependencies](mddocs/all_dependencies.md)
 
-## Supported media formats
-| Audio      | Video      |
-| ---------- | ---------  |
-|mp3, aac, wav, m4a, flac, aiff |mp4, mov, m4v|
+## Integration
+### Token
+We offer а free 14-days trial for you could thoroughly test and assess Export API functionality in your app.
 
-## Export video quality params
-The quality and quantity of exported videos can be configured using `ExportParamsProvider` interface. Just put a required video quality into `ExportManager.Params.Builder` constructor. Check out an [**example**](https://vebanuba.notion.site/Configure-export-params-93e66c89d491449ea06cf6f24b739697), where multiple video files are exported: the first and the second with the most suitable quality params (defined by `sizeProvider.provideOptimalExportVideoSize()` method) and the third with 360p quality (defined by using an Export API constant `VideoResolution.VGA360`).
-This sample has a custom implementation [ExportParamsProvider](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/custom/CustomExportParamsProvider.kt).
+To get access to your trial, please, get in touch with us by [filling a form](https://www.banuba.com/video-editor-sdk) on our website. Our sales managers will send you the trial token.
 
-See the **default bitrate (kb/s)** for exported video (without audio) in the table below:
-| 360p(360 x 640) | 480p(480 x 854) | 540p(540 x 960) | HD(720 x 1280) | FHD(1080 x 1920) |
-| --------------- | --------------- | --------------- |--------------- | ---------------- |
-|             1200|             2000|            2000 |            4000|              6400|
+### Getting Started  
 
-## Token
-We offer а free 14-days trial for you could thoroughly test and assess Export API functionality in your app. To get access to your trial, please, get in touch with us by [filling a form](https://www.banuba.com/video-editor-sdk) on our website. Our sales managers will send you the trial token.
+Export API integration does not require much effort and pretty straightforward process.
+1. __Add Banuba token__ <br/>
+   The token **IS REQUIRED** to run sample and VE Export API integration in your app. For simplicity the token is put in [resources](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/res/values/strings.xml#L6).<br/><br/>
+2. __Add dependencies to your .gradle file__ <br/>
+   VE Export API contains a number of functional Android modules that should be declared in .gradle file.<br/><br/>
+3. __Configure DI(Dependency Injection)__ <br/>
+    **Koin** as a Dependency Injection is used to simplify integration and add more customizations of VE Export Api.<br/><br/>
+4. __Configure Export flow__ <br/>
+    Here you initialize ```ExportFlowManager``` to set up your export flow:
+   - Set mode(background, foreground) that meets your app requirements. 
+   - Set number of video files(sources) that should be exported in target video file.
+   - Set number of video files(target) to export with video quality.
+   - Set effects. Please see step 6. <br/><br/>
+5. __Observe Export execution__ <br/>
+   Add ```Observer<ExportResult>``` to listen to results of export execution.<br/><br/>
+6. __Configure effects__ <br/>
+   Add different effects i.e. watermark, visual(fx), time, text, gif, etc. to your exported video.<br/><br/>
 
-Banuba token should be put [here](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/res/values/strings.xml#L6).
 
-## Getting Started
-### Add dependencies
-Please, specify a list of dependencies as in [app/build.gradle](app/build.gradle) file to integrate export functionality of Export API.
+[Please see full integration guide](mddocs/integration.md)
 
-``` groovy
-def banubaSdkVersion = '1.24.1'
-implementation "com.banuba.sdk:ffmpeg:4.4"
-implementation "com.banuba.sdk:banuba-token-storage-sdk:${banubaSdkVersion}"
-implementation "com.banuba.sdk:core-sdk:${banubaSdkVersion}"
-implementation "com.banuba.sdk:ve-sdk:${banubaSdkVersion}"
-implementation "com.banuba.sdk:ve-export-sdk:${banubaSdkVersion}"
-```
-
-### Configure DI
-You can override the behavior of the export in your app with DI libraries and tools (we use [Koin](https://insert-koin.io/), for example).  
-First, you can create your own KoinModule.
-``` kotlin
-class ExportSampleKoinModule() {
-    val module = module {
-
-        factory<ExportParamsProvider>(override = true) {
-            CustomExportParamsProvider(
-                exportDir = get(named("exportDir")),
-                mediaFileNameHelper = get(),
-                watermarkBuilder = get(),
-                exportAudioProvider = get()
-            )
-        }
-    }
-}
-```  
-You can to override properties to customize the export for your application. Please, take a look at the [full example](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt).
-
-Once you’ve overridden the properties that you need, initialize the Koin module in your [Application.onCreate](app/src/main/java/com/banuba/example/exportapp/ExportApp.kt#L12) method.
-``` kotlin
-override fun onCreate() {
-    super.onCreate()
-    startKoin {
-        androidContext(this@ExportApp)
-        allowOverride(true)
-        modules(
-            VeSdkKoinModule().module,
-            VeExportKoinModule().module,
-            TokenStorageKoinModule().module,
-            ExportSampleKoinModule().module,
-        )
-    }
-}
-```
-
-### Configure export flow
-The Export API exports recordings as .mp4 files. There are many ways you can customize this flow to better integrate it into your app.
-
-To change export output, start with the ```ExportParamsProvider``` interface. It contains one method - ```provideExportParams()``` that returns ```List<ExportParams>```. Each item on this list relates to one of the videos in the output and their configuration.
-
-By default, exported videos are placed in the "export" directory of external storage. To change the target folder, you should provide a custom Uri instance named **exportDir** through DI.
-
-Should you choose to export files in the background, you’d do well to change ```ExportNotificationManager```. It lets you change the notifications for any export scenario (started, finished successfully, and failed).
-
-### Configure ExportFlowManager
-Export can work in foreground or background mode. By default export works in foreground mode. But if you need to run the export in the background, you should override `ExportFlowManager` in your own Koin module:
-``` kotlin
-class ExportSampleKoinModule() {
-    val module = module {
-        ...
-        single<ExportFlowManager>(named("backgroundExportFlowManager")) {
-            BackgroundExportFlowManager(
-                exportDataProvider = get(),
-                sessionParamsProvider = get(),
-                exportSessionHelper = get(),
-                exportNotificationManager = get(),
-                exportDir = get(named("exportDir")),
-                publishManager = get(),
-                errorParser = get(),
-                exportBundleProvider = get()
-            )
-        }
-        ...
-    }
-}
-```  
-
-If you need both export modes, see the [sample implementation](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L19)
-
-ExportFlowManager contains methods for starting(`fun startExport`) and stopping(`fun stopExport`) export, variables for receiving export result(`val resultData`) and export operation mode(`val provideExportInBackground`).
-
-``` kotlin
-interface ExportFlowManager {
-    val resultData: LiveData<ExportResult>
-    val provideExportInBackground: Boolean
-
-    fun startExport(exportTaskParams: ExportTaskParams)
-    fun stopExport()
-    fun setInactive()
-}
-```
-
-To start the export, you need to pass object of `ExportTaskParams` class as an argument to `startExport` method
-``` kotlin
-/**
- * Data class which contains video, effects, music and cover params utilizing on export.
- * It is passed into [ExportFlowManager.startExport] function.
- *
- * @param videoRanges [VideoRangeList] object containing video clips
- * @param effects [Effects] visual and time effects to apply to the exported video
- * @param musicEffects list of music effects applied to the exported video
- * @param videoVolume volume of exported video specified in float number from 0 to 1
- * @param coverUri Uri of the cover image file
- * @param coverFrameSize size of the cover image
- * @param aspect aspect ratio applied to the exported video
- * @param videoResolution optional [VideoResolution] value applied to the exported video.
- *  By default the optimal size will be set automatically (it is calculated with taking into
- *  account capabilities of the device)
- * @param additionalExportData any Parcelable object that may be received
- *  in [ExportResult.Success.additionalExportData] parameter
- * @param doOnStart lambda the will be invoked in the very beginning of the export process
- */
-data class ExportTaskParams(
-    val videoRanges: VideoRangeList,
-    val effects: Effects,
-    val musicEffects: List<MusicEffect>,
-    val videoVolume: Float,
-    var coverUri: Uri = Uri.EMPTY,
-    val coverFrameSize: Size,
-    val aspect: AspectRatio,
-    val videoResolution: VideoResolution.Exact? = null,
-    var additionalExportData: Parcelable? = null,
-    var doOnStart: (() -> Unit)? = null
-)
-```
-Example of creating a `ExportTaskParams` object can be found [here](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L70).
-
-The export work state can take the following states:
-``` kotlin
-sealed class ExportResult {
-    object Inactive : ExportResult()
-
-    object Stopped : ExportResult()
-
-    data class Progress(val preview: Uri) : ExportResult()
-
-    @Parcelize
-    data class Success(
-        val videoList: List<ExportedVideo>,
-        val preview: Uri,
-        val metaUri: Uri,
-        val additionalExportData: Bundle
-    ) : ExportResult(), Parcelable
-
-    @Parcelize
-    data class Error(val type: ExportError) : ExportResult(), Parcelable
-}
-```
-Example of processing the export result can be found [here](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L83).
-
-### Configure watermark
-To use a watermark, add the `WatermarkProvider` interface to your app. The image goes into the getWatermarkBitmap method. Once you’re done, rearrange the dependency watermarkProvider in [DI](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L52).
-
-### Configure overlay effects
-You can add an effect objects such as gif and text to exporting video.
-
-To create this effects you need to use `TextObjectDrawable` and `GifObjectDrawable` classes.
-
-To create more advanced effects (i.e. fx or time effects) you should use an additional dependency:
-
-``` groovy
-implementation "com.banuba.sdk:ve-effects-sdk:${banubaSdkVersion}"
-```
-
-Note that you can use **fx** and **time** effects only available to you according to the pricing plan. Trying to use prohibited effects will lead to an exception.
-
-Please, checkout [example](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L173) of creating effects.
 
 ## API Reference
+Please visit [API Reference](mddocs/index.md) to read more about ```ve-export-sdk``` module.
 
-List of Video Editor APIs utilized in export sample.
 
-### Export API
-
-```ve-export-sdk``` module contains interfaces and classes for handling and configuring export process.
-
-[API Reference](mddocs/index.md)

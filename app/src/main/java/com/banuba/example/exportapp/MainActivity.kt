@@ -167,15 +167,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         previewImageView.setImageURI(null)
         isBackgroundExport = isBackground
 
-        registerForActivityResult(
-            ActivityResultContracts.GetMultipleContents()
-        ) { videosUri ->
-            if (videosUri.isNullOrEmpty()) return@registerForActivityResult
+        pickSampleVideos.launch("video/*")
+    }
 
-            progressVisible(true)
+    private val pickSampleVideos = registerForActivityResult(
+        ActivityResultContracts.GetMultipleContents()
+    ) { videosUri ->
+        if (videosUri.isNullOrEmpty()) return@registerForActivityResult
 
-            startExportFlow(videosUri)
-        }.launch("video/*")
+        progressVisible(true)
+
+        startExportFlow(videosUri)
     }
 
     private fun progressVisible(isExporting: Boolean) {
