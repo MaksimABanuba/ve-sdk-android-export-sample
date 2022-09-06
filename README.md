@@ -84,10 +84,10 @@ Export API integration does not require much effort and pretty straightforward p
    - Set number of video files(sources) that should be exported in target video file.
    - Set number of video files(target) to export with video quality.
    - Set effects. Please see step 6. <br/><br/>
-5. __Observe Export execution__ <br/>
-   Add ```Observer<ExportResult>``` to listen to results of export execution.<br/><br/>
-6. __Configure effects__ <br/>
+5. __Configure effects__ <br/>
    Add different effects i.e. watermark, visual(fx), time, text, gif, etc. to your exported video.<br/><br/>
+6. __Observe Export execution__ <br/>
+   Add ```Observer<ExportResult>``` to listen to results of export execution.<br/><br/>
 
 
 [Please see full integration guide](mddocs/integration.md)

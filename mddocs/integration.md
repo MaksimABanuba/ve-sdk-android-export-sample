@@ -1,6 +1,6 @@
 # Integration Guide
 
-# Step 1 - Add Banuba Token
+## Step 1 - Add Banuba Token
 
 The token **IS REQUIRED** to run sample and an integration in your app.</br>
 Add token to [resources](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/res/values/strings.xml#L6).
@@ -198,7 +198,36 @@ data class ExportTaskParams(
 Please see [full example](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L123).
 
 
-### Step 5: Observe export execution
+## Step 5 - Configure effects
+VE Export API supports a number of effects on video i.e. watermark, text, gif, visual(fx), etc.
+
+__Watermark on video__</br>
+Create custom implementation of ```WatermarkProvider``` in Koin Module.
+
+Please see [full example](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L78).
+<br></br>
+
+__Text on video__</br>
+Create an instance of ```TextObjectDrawable```.
+
+__GIF on video__</br>
+Create an instance of ```GifObjectDrawable```.
+
+__Visual and Time effects__</br>
+Add dependency
+
+``` groovy
+implementation "com.banuba.sdk:ve-effects-sdk:${banubaSdkVersion}"
+```
+and see [full example](app/src/main/java/com/banuba/example/exportapp/ExportEffectsProvider.kt).
+<br></br>
+
+__NOTE__ 
+
+You can use **visual(fx)** and **time** effects only available to you according to the pricing plan.
+Trying to use out of plan effects will lead to an exception.
+
+## Step 6: Observe export execution
 
 Create an instance of ```ExportResult``` and pass it to ```exportFlowManager.resultData.observe(this, exportResultObserver)```.</br>
 You can override 5 states:
@@ -232,35 +261,9 @@ sealed class ExportResult {
 Results are delivered to observer after ```ExportFlowManager.startExport()``` call.
 
 Please see [full example](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L83).
-<br></br>
+<br>
 
-### Step 6 - Configure watermark
-Add custom implementation of ```WatermarkProvider``` in Koin Module to add watermark on video.
-
-Please see [full sample](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L78).
-<br></br>
-
-### Step 7 - Configure effects
-VE Export API supports text, gif, visual(fx) and time effects on video. 
-
-Create an instance of ```TextObjectDrawable``` to add **text* on video.
-Create an instance of ```GifObjectDrawable``` to add **gif** on video.
-
-To create more advanced effects i.e. visual(fx) or time effects you should add dependency:
-
-``` groovy
-implementation "com.banuba.sdk:ve-effects-sdk:${banubaSdkVersion}"
-```
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/ExportEffectsProvider.kt).
-<br></br>
-
-__NOTE__ 
-
-You can use **fx** and **time** effects only available to you according to the pricing plan.
-Trying to use prohibited effects will lead to an exception.
-
-
-### Step 8(Optional) - Custom export flow
+## Step 7(Optional) - Custom export flow
 
 To achieve fully control over export flow you can create custom implementation of ```ExportFlowManager```.
 ``` kotlin
