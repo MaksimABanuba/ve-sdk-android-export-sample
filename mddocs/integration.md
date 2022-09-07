@@ -2,12 +2,25 @@
 
 ## Step 1 - Add Banuba Token
 
-The token **IS REQUIRED** to run sample and an integration in your app.</br>
-Add token to [resources](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/res/values/strings.xml#L6).
+:exclamation: The token **IS REQUIRED** to run sample and an integration in your app.</br>
+Add the token to [resources](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/res/values/strings.xml#L6).
 </br>
 ## Step 2 - Add dependencies
 
-Please specify the following dependencies as in [app/build.gradle](app/build.gradle) file to get functional modules of VE Export API.
+Add Banuba repository to your [build.gradle](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/build.gradle#L21)
+
+``` groovy
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Banuba/banuba-ve-sdk")
+            credentials {
+                username = ...
+                password = ...
+            }
+        }
+```
+
+Specify the following dependencies as in [app/build.gradle](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/build.gradle#L44) file to get functional modules of VE Export API.
 
 ``` groovy
 def banubaSdkVersion = '1.24.1'
@@ -39,7 +52,7 @@ class ExportSampleKoinModule() {
 }
 ```
 <br></br>
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt).
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt).
 <br></br>
 
 Next, initialize Koin in your ```Application.onCreate()```  method.
@@ -59,13 +72,13 @@ override fun onCreate() {
 }
 ```
 <br></br>
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/ExportApp.kt#L12)
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/ExportApp.kt#L16)
 
 ## Step 4 - Configure export flow
 
-VE Export API produces video in different formats i.e. mp4 file, in different modes and with different effects.</br>
+VE Export API produces video in various formats i.e. mp4 file, in different modes and with many effects.</br>
 
-By default, exported videos are placed in the **export** directory on external storage. To change the target folder, you should provide a custom ```Uri``` instance named **exportDir** through DI.</br>
+By default, exported videos are placed in the **export** directory on external storage. To change the target directory you should provide a custom ```Uri``` instance named **exportDir** in Koin module.</br>
 
 ``` kotlin
 class ExportSampleKoinModule() {
@@ -87,9 +100,9 @@ class ExportSampleKoinModule() {
 }
 ``` 
 
-Create custom new implementation of ```ExportParamsProvider``` to configure export output for your app.
-It contains single method - ```provideExportParams()``` that returns ```List<ExportParams>```.
-Every ```ExportParams``` in the list produces a corresponding video in **exportDir**.</br>
+Create custom implementation of ```ExportParamsProvider``` to configure export output for your app.
+Override single method - ```provideExportParams()``` to return ```List<ExportParams>```.
+Every ```ExportParams``` in the list produces a corresponding video in **exportDir** property.</br>
 For every exported video you can choose special video resolution using ```VideoResolution.Exact``` class.
 
 ``` kotlin
@@ -118,7 +131,7 @@ class CustomExportParamsProvider(
                 .build()
                 
         val secondVideoParams =
-            ExportParams.Builder(VideoResolution.Exact.VGA460)
+            ExportParams.Builder(VideoResolution.Exact.VGA360)
                 .effects(effects.withWatermark(watermarkBuilder, WatermarkAlignment.BottomRight(marginRightPx = 16.toPx)))
                 .fileName("second_export_default")
                 ...
@@ -129,14 +142,14 @@ class CustomExportParamsProvider(
 }
 ``` 
 <br></br>
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/CustomExportParamsProvider.kt)
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/CustomExportParamsProvider.kt)
 <br></br>
-Now it is time to configure which export flow mode run to produce video.</br>
+Next, configure export flow mode to produce video files.</br>
 There are 2 modes:
-+ Foreground **(Default)** - export runs in the foreground. For example, the user see progress indication till export finishes. 
-+ Background - export runs in the background. The user can leave specific screen and notification will be sent when video is ready.
++ Foreground **(Default)** - export runs in the foreground. For example, the user see progress indication till export finishes. No need to add it in Koin module.
++ Background - export runs in the background. The user can leave a screen and notification will be sent when video is ready.
 
-Override ``` ExportFlowManager``` in Koin module if you need to run the export in the background.
+Override ``` ExportFlowManager``` in Koin module to run export in the background.
 ``` kotlin
 class ExportSampleKoinModule() {
     val module = module {
@@ -157,12 +170,11 @@ class ExportSampleKoinModule() {
     }
 }
 ```  
-Only for export in background mode</br>
-override ```ExportNotificationManager``` if you want to change the notifications for any export scenario (started, finished successfully, and failed).</br>
 
-Please see both export modes in [full example](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L19)</br>
-<br></br>
-Last, create an instance of ```ExportTaskParams``` and pass to ``` ExportFlowManager.startExport()``` function.
+Please see both export modes in [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L48)</br>
+<br>
+
+Last, start export by creating an instance of ```ExportTaskParams``` and pass to ``` ExportFlowManager.startExport()``` function.
 ``` kotlin
 /**
  * Data class which contains video, effects, music and cover params used in export.
@@ -195,7 +207,7 @@ data class ExportTaskParams(
     var doOnStart: (() -> Unit)? = null
 )
 ```
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L123).
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L123).
 
 
 ## Step 5 - Configure effects
@@ -204,7 +216,7 @@ VE Export API supports a number of effects on video i.e. watermark, text, gif, v
 __Watermark on video__</br>
 Create custom implementation of ```WatermarkProvider``` in Koin Module.
 
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L78).
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/ExportSampleKoinModule.kt#L76).
 <br></br>
 
 __Text on video__</br>
@@ -219,18 +231,17 @@ Add dependency
 ``` groovy
 implementation "com.banuba.sdk:ve-effects-sdk:${banubaSdkVersion}"
 ```
-and see [full example](app/src/main/java/com/banuba/example/exportapp/ExportEffectsProvider.kt).
+and see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/ExportEffectsProvider.kt).
 <br></br>
 
-__NOTE__ 
 
-You can use **visual(fx)** and **time** effects only available to you according to the pricing plan.
+:exclamation: You can use **visual(fx)** and **time** effects only available to you according to the pricing plan.
 Trying to use out of plan effects will lead to an exception.
 
 ## Step 6: Observe export execution
 
-Create an instance of ```ExportResult``` and pass it to ```exportFlowManager.resultData.observe(this, exportResultObserver)```.</br>
-You can override 5 states:
+Create an instance of ```Observer<ExportResult>``` and pass it to ```exportFlowManager.resultData.observe(this, exportResultObserver)```.</br>
+You can override the following states:
 - Inactive
 - Stopped
 - Progress
@@ -260,7 +271,10 @@ sealed class ExportResult {
 
 Results are delivered to observer after ```ExportFlowManager.startExport()``` call.
 
-Please see [full example](app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#L83).
+Only for export running in background mode</br>
+override ```ExportNotificationManager``` to change notifications for export results (started, finished, etc.).</br>
+
+Please see [full example](https://github.com/Banuba/ve-sdk-android-export-sample/blob/master/app/src/main/java/com/banuba/example/exportapp/MainActivity.kt#48).
 <br>
 
 ## Step 7(Optional) - Custom export flow

@@ -1,6 +1,6 @@
 [![](https://www.banuba.com/hubfs/Banuba_November2018/Images/Banuba%20SDK.png)](https://www.banuba.com/video-editor-sdk)
 
-# Android AI Video Editor Export API
+# AI Video Editor Export API - Android Sample
 
 This repository demonstrates how to use AI Video Editor Export API in your Android app.
 
@@ -14,22 +14,22 @@ This repository demonstrates how to use AI Video Editor Export API in your Andro
 
 Export API can apply configurable effects to video and export that video with specified parameters.
 
-| Feature             |                                      |
-|---------------------|--------------------------------------|
-| video formats       | .mp4, .mov, .m4v                     |
-| video quality       | 360p, 480p, 540p, 720p, 1080p        |
-| audio formats       | .mp3, .aac, .wav, .m4a, .flac, .aiff |
-| modes               | background, foreground               |
-| has UI              | :x:                                  |
-| multiples files     | :white_check_mark:                   |
-| visual effects      | :white_check_mark:                   |
-| time effects        | :white_check_mark:                   |
-| color effects       | :white_check_mark:                   |
-| AR effects          | :white_check_mark:                   |
-| text                | :white_check_mark:                   |
-| gif                 | :white_check_mark:                   |
-| watermark           | :white_check_mark:                   |
-| custom aspect ratio | :white_check_mark:                   |
+| Feature             |                                             |
+|---------------------|---------------------------------------------|
+| video formats       | .mp4, .mov, .m4v                            |
+| video quality       | 360p, 480p, 540p, 720p, 1080p, 1440p, 2160p |
+| audio formats       | .mp3, .aac, .wav, .m4a, .flac, .aiff        |
+| modes               | background, foreground                      |
+| has UI              | :x:                                         |
+| multiples files     | :white_check_mark:                          |
+| visual effects      | :white_check_mark:                          |
+| time effects        | :white_check_mark:                          |
+| color effects       | :white_check_mark:                          |
+| AR effects          | :white_check_mark:                          |
+| text                | :white_check_mark:                          |
+| gif                 | :white_check_mark:                          |
+| watermark           | :white_check_mark:                          |
+| custom aspect ratio | :white_check_mark:                          |
 
 <br>
 
@@ -47,7 +47,7 @@ __Supported video quality__
 | UHD(2160 x 3860) | 20000         |
 
 ## Requirements
-This is what you need to run the Export API
+VE Export API requires
 - Java 1.8+
 - Kotlin 1.4+
 - Android Studio 4+
@@ -77,13 +77,12 @@ Export API integration does not require much effort and pretty straightforward p
 2. __Add dependencies to your .gradle file__ <br/>
    VE Export API contains a number of functional Android modules that should be declared in .gradle file.<br/><br/>
 3. __Configure DI(Dependency Injection)__ <br/>
-    **Koin** as a Dependency Injection is used to simplify integration and add more customizations of VE Export Api.<br/><br/>
+    **Koin** as a Dependency Injection is used to simplify integration and allows to add more customizations of VE Export API.<br/><br/>
 4. __Configure Export flow__ <br/>
-    Here you initialize ```ExportFlowManager``` to set up your export flow:
-   - Set mode(background, foreground) that meets your app requirements. 
+    Initialize ```ExportFlowManager``` to set up your export flow:
+   - Set mode(background, foreground) to meet your app requirements. 
    - Set number of video files(sources) that should be exported in target video file.
-   - Set number of video files(target) to export with video quality.
-   - Set effects. Please see step 6. <br/><br/>
+   - Set number of video files(target) to export with various video quality.<br/><br/>
 5. __Configure effects__ <br/>
    Add different effects i.e. watermark, visual(fx), time, text, gif, etc. to your exported video.<br/><br/>
 6. __Observe Export execution__ <br/>
