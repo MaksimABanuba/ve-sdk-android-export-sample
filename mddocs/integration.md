@@ -33,7 +33,7 @@ implementation "com.banuba.sdk:ve-export-sdk:${banubaSdkVersion}"
 
 ## Step 3 - Configure Dependency Injection
 
-Override behavior of VE Export API in an app with DI libraries and tools (we use [Koin](https://insert-koin.io/), for example).  
+Override behavior of VE Export API in an app with DI libraries and tools (we use [Koin](https://insert-koin.io/)).  
 Create new KoinModule for export flow.
 There is a number of properties you can override.
 ``` kotlin

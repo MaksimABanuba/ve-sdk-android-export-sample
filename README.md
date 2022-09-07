@@ -56,8 +56,6 @@ VE Export API requires
 
 ## Dependencies
 - [Koin](https://insert-koin.io/)
-- [ExoPlayer](https://github.com/google/ExoPlayer)
-- [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - [ffmpeg](https://github.com/FFmpeg/FFmpeg/tree/n3.4.1)
 - [AndroidX](https://developer.android.com/jetpack/androidx) libraries
 
