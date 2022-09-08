@@ -17,6 +17,7 @@ import com.banuba.sdk.core.ext.isNullOrEmpty
 import com.banuba.sdk.core.media.DurationExtractor
 import com.banuba.sdk.export.data.ExportFlowManager
 import com.banuba.sdk.export.data.ExportResult
+import com.banuba.sdk.export.data.ExportStopReason
 import com.banuba.sdk.export.data.ExportTaskParams
 import com.banuba.sdk.ve.domain.VideoRangeList
 import com.banuba.sdk.ve.domain.VideoRecordRange
@@ -151,9 +152,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         stopExportBtn.setOnClickListener {
             exportResultVideoUri = Uri.EMPTY
             if (isBackgroundExport) {
-                backgroundExportFlowManager.stopExport()
+                backgroundExportFlowManager.stopExport(ExportStopReason.CANCEL)
             } else {
-                foregroundExportFlowManager.stopExport()
+                foregroundExportFlowManager.stopExport(ExportStopReason.CANCEL)
             }
         }
 

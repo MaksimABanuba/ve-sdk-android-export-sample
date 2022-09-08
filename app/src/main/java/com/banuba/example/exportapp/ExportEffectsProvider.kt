@@ -3,8 +3,8 @@ package com.banuba.example.exportapp
 import android.content.Context
 import android.graphics.*
 import androidx.core.net.toUri
-import com.banuba.sdk.core.effects.IVisualEffectDrawable
 import com.banuba.sdk.core.effects.RectParams
+import com.banuba.sdk.core.effects.VisualEffectDrawable
 import com.banuba.sdk.core.ext.copyFromAssetsToExternal
 import com.banuba.sdk.effects.ve.VideoEffectsHelper
 import com.banuba.sdk.ve.domain.TimeBundle
@@ -57,7 +57,7 @@ class ExportEffectsProvider {
         val vhsDrawable = VideoEffectsHelper.takeAvailableFxEffects(context).find {
             context.getString(it.nameRes) == "VHS"
         }?.provide() ?: throw Exception("VHS video effect is not available!")
-        if (vhsDrawable !is IVisualEffectDrawable) throw TypeCastException("Drawable is not IVisualEffectDrawable type!")
+        if (vhsDrawable !is VisualEffectDrawable) throw TypeCastException("Drawable is not IVisualEffectDrawable type!")
         return VisualTimedEffect(effectDrawable = vhsDrawable)
     }
 
