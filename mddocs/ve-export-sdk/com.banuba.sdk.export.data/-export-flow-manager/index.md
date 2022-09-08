@@ -13,7 +13,7 @@ Main interface that is used to manage export flow. There are two implementations
 |---|---|
 | [setInactive](set-inactive.md) | [androidJvm]<br>abstract fun [setInactive](set-inactive.md)()<br>Sets export state to [ExportResult.Inactive](../-export-result/-inactive/index.md). This state is an initial state therefore this method is an equivalent of refreshing [resultData](result-data.md) object |
 | [startExport](start-export.md) | [androidJvm]<br>abstract fun [startExport](start-export.md)(exportTaskParams: [ExportTaskParams](../-export-task-params/index.md))<br>Starts export |
-| [stopExport](stop-export.md) | [androidJvm]<br>abstract fun [stopExport](stop-export.md)()<br>Stops export |
+| [stopExport](stop-export.md) | [androidJvm]<br>abstract fun [stopExport](stop-export.md)(reason: [ExportStopReason](../-export-stop-reason/index.md))<br>Stops export |
 
 ## Properties
 

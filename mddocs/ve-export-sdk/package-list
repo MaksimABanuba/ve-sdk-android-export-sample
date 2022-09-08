@@ -8,7 +8,7 @@ $dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/provideEx
 $dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/resultData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-background-export-flow-manager/result-data.md
 $dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/setInactive/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-background-export-flow-manager/set-inactive.md
 $dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/startExport/#com.banuba.sdk.export.data.ExportTaskParams/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-background-export-flow-manager/start-export.md
-$dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/stopExport/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-background-export-flow-manager/stop-export.md
+$dokka.location:com.banuba.sdk.export.data/BackgroundExportFlowManager/stopExport/#com.banuba.sdk.export.data.ExportStopReason/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-background-export-flow-manager/stop-export.md
 $dokka.location:com.banuba.sdk.export.data/DefaultExportErrorParser///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-default-export-error-parser/index.md
 $dokka.location:com.banuba.sdk.export.data/DefaultExportErrorParser/DefaultExportErrorParser/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-default-export-error-parser/-default-export-error-parser.md
 $dokka.location:com.banuba.sdk.export.data/DefaultExportErrorParser/parse/#kotlin.Throwable?/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-default-export-error-parser/parse.md
@@ -55,7 +55,7 @@ $dokka.location:com.banuba.sdk.export.data/ExportFlowManager/provideExportInBack
 $dokka.location:com.banuba.sdk.export.data/ExportFlowManager/resultData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-flow-manager/result-data.md
 $dokka.location:com.banuba.sdk.export.data/ExportFlowManager/setInactive/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-flow-manager/set-inactive.md
 $dokka.location:com.banuba.sdk.export.data/ExportFlowManager/startExport/#com.banuba.sdk.export.data.ExportTaskParams/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-flow-manager/start-export.md
-$dokka.location:com.banuba.sdk.export.data/ExportFlowManager/stopExport/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-flow-manager/stop-export.md
+$dokka.location:com.banuba.sdk.export.data/ExportFlowManager/stopExport/#com.banuba.sdk.export.data.ExportStopReason/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-flow-manager/stop-export.md
 $dokka.location:com.banuba.sdk.export.data/ExportNotificationManager///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-notification-manager/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportNotificationManager/showExportStartedNotification/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-notification-manager/show-export-started-notification.md
 $dokka.location:com.banuba.sdk.export.data/ExportNotificationManager/showFailedExportExportNotification/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-notification-manager/show-failed-export-export-notification.md
@@ -96,9 +96,12 @@ $dokka.location:com.banuba.sdk.export.data/ExportResult.Error/Error/#com.banuba.
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Error/type/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-error/type.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Inactive///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-inactive/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Progress///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-progress/index.md
-$dokka.location:com.banuba.sdk.export.data/ExportResult.Progress/Progress/#android.net.Uri/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-progress/-progress.md
+$dokka.location:com.banuba.sdk.export.data/ExportResult.Progress/Progress/#android.net.Uri#kotlin.Int/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-progress/-progress.md
+$dokka.location:com.banuba.sdk.export.data/ExportResult.Progress/percentage/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-progress/percentage.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Progress/preview/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-progress/preview.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Stopped///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-stopped/index.md
+$dokka.location:com.banuba.sdk.export.data/ExportResult.Stopped/Stopped/#com.banuba.sdk.export.data.ExportStopReason/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-stopped/-stopped.md
+$dokka.location:com.banuba.sdk.export.data/ExportResult.Stopped/reason/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-stopped/reason.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Success///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-success/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Success/Success/#kotlin.collections.List[com.banuba.sdk.export.data.ExportedVideo]#android.net.Uri#android.net.Uri#android.os.Bundle/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-success/-success.md
 $dokka.location:com.banuba.sdk.export.data/ExportResult.Success/additionalExportData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result/-success/additional-export-data.md
@@ -112,6 +115,9 @@ $dokka.location:com.banuba.sdk.export.data/ExportResultData/info/#/PointingToDec
 $dokka.location:com.banuba.sdk.export.data/ExportResultData/result/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-result-data/result.md
 $dokka.location:com.banuba.sdk.export.data/ExportSessionHelper///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-session-helper/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportSessionHelper/cleanSessionData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-session-helper/clean-session-data.md
+$dokka.location:com.banuba.sdk.export.data/ExportStopReason.CANCEL///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-stop-reason/-c-a-n-c-e-l/index.md
+$dokka.location:com.banuba.sdk.export.data/ExportStopReason.INTERRUPT///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-stop-reason/-i-n-t-e-r-r-u-p-t/index.md
+$dokka.location:com.banuba.sdk.export.data/ExportStopReason///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-stop-reason/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportTaskParams///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-task-params/index.md
 $dokka.location:com.banuba.sdk.export.data/ExportTaskParams/ExportTaskParams/#com.banuba.sdk.ve.domain.VideoRangeList#com.banuba.sdk.ve.effects.Effects#kotlin.collections.List[com.banuba.sdk.ve.effects.music.MusicEffect]#kotlin.Float#android.net.Uri#android.util.Size#com.banuba.sdk.core.AspectRatio#com.banuba.sdk.core.VideoResolution.Exact?#android.os.Parcelable?#kotlin.Function0[kotlin.Unit]?/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-task-params/-export-task-params.md
 $dokka.location:com.banuba.sdk.export.data/ExportTaskParams/additionalExportData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-export-task-params/additional-export-data.md
@@ -142,7 +148,9 @@ $dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/provideEx
 $dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/resultData/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-foreground-export-flow-manager/result-data.md
 $dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/setInactive/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-foreground-export-flow-manager/set-inactive.md
 $dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/startExport/#com.banuba.sdk.export.data.ExportTaskParams/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-foreground-export-flow-manager/start-export.md
-$dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/stopExport/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-foreground-export-flow-manager/stop-export.md
+$dokka.location:com.banuba.sdk.export.data/ForegroundExportFlowManager/stopExport/#com.banuba.sdk.export.data.ExportStopReason/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-foreground-export-flow-manager/stop-export.md
+$dokka.location:com.banuba.sdk.export.data/ProgressListener///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-progress-listener/index.md
+$dokka.location:com.banuba.sdk.export.data/ProgressListener/onProgressChanged/#kotlin.Int/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-progress-listener/on-progress-changed.md
 $dokka.location:com.banuba.sdk.export.data/PublishManager///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-publish-manager/index.md
 $dokka.location:com.banuba.sdk.export.data/PublishManager/publish/#com.banuba.sdk.export.data.ExportedVideo/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-publish-manager/publish.md
 $dokka.location:com.banuba.sdk.export.data/SimpleExportBundleProvider///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.data/-simple-export-bundle-provider/index.md
@@ -157,7 +165,7 @@ $dokka.location:com.banuba.sdk.export.di/VeExportKoinModule/VeExportKoinModule/#
 $dokka.location:com.banuba.sdk.export.di/VeExportKoinModule/module/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.di/-ve-export-koin-module/module.md
 $dokka.location:com.banuba.sdk.export.internal////PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/index.md
 $dokka.location:com.banuba.sdk.export.internal/ExportDataProvider///PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/-export-data-provider/index.md
-$dokka.location:com.banuba.sdk.export.internal/ExportDataProvider/requestExportAsync/#com.banuba.sdk.export.data.ExportTaskParams/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/-export-data-provider/request-export-async.md
+$dokka.location:com.banuba.sdk.export.internal/ExportDataProvider/requestExportAsync/#com.banuba.sdk.export.data.ExportTaskParams#com.banuba.sdk.export.data.ProgressListener/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/-export-data-provider/request-export-async.md
 $dokka.location:com.banuba.sdk.export.internal/ExportDataProvider/requestPreviewAsync/#com.banuba.sdk.export.data.ExportTaskParams/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/-export-data-provider/request-preview-async.md
 $dokka.location:com.banuba.sdk.export.internal/ExportDataProvider/requestStopExport/#/PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.internal/-export-data-provider/request-stop-export.md
 $dokka.location:com.banuba.sdk.export.utils////PointingToDeclaration/ve-export-sdk/com.banuba.sdk.export.utils/index.md

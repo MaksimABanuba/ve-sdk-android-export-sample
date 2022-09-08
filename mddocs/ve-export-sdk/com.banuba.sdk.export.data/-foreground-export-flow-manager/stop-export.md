@@ -3,6 +3,14 @@
 # stopExport
 
 [androidJvm]\
-open override fun [stopExport](stop-export.md)()
+open override fun [stopExport](stop-export.md)(reason: [ExportStopReason](../-export-stop-reason/index.md))
 
 Stops export
+
+## Parameters
+
+androidJvm
+
+| | |
+|---|---|
+| reason | [ExportStopReason](../-export-stop-reason/index.md) |

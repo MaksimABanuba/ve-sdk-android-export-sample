@@ -3,6 +3,14 @@
 # stopExport
 
 [androidJvm]\
-abstract fun [stopExport](stop-export.md)()
+abstract fun [stopExport](stop-export.md)(reason: [ExportStopReason](../-export-stop-reason/index.md))
 
 Stops export
+
+## Parameters
+
+androidJvm
+
+| | |
+|---|---|
+| reason | [ExportStopReason](../-export-stop-reason/index.md) |

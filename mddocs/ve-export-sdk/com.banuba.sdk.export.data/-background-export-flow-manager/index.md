@@ -25,7 +25,7 @@ class [BackgroundExportFlowManager](index.md)(exportDataProvider: [ExportDataPro
 |---|---|
 | [setInactive](set-inactive.md) | [androidJvm]<br>open override fun [setInactive](set-inactive.md)()<br>Sets export state to [ExportResult.Inactive](../-export-result/-inactive/index.md). This state is an initial state therefore this method is an equivalent of refreshing [resultData](result-data.md) object |
 | [startExport](start-export.md) | [androidJvm]<br>open override fun [startExport](start-export.md)(exportTaskParams: [ExportTaskParams](../-export-task-params/index.md))<br>Starts export |
-| [stopExport](stop-export.md) | [androidJvm]<br>open override fun [stopExport](stop-export.md)()<br>Stops export |
+| [stopExport](stop-export.md) | [androidJvm]<br>open override fun [stopExport](stop-export.md)(reason: [ExportStopReason](../-export-stop-reason/index.md))<br>Stops export |
 
 ## Properties
 

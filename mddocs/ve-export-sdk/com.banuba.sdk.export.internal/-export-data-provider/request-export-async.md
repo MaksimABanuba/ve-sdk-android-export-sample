@@ -3,4 +3,4 @@
 # requestExportAsync
 
 [androidJvm]\
-abstract fun [requestExportAsync](request-export-async.md)(params: [ExportTaskParams](../../com.banuba.sdk.export.data/-export-task-params/index.md)): Deferred&lt;[List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;[ExportResultData](../../com.banuba.sdk.export.data/-export-result-data/index.md)&gt;&gt;
+abstract fun [requestExportAsync](request-export-async.md)(params: [ExportTaskParams](../../com.banuba.sdk.export.data/-export-task-params/index.md), progressListener: [ProgressListener](../../com.banuba.sdk.export.data/-progress-listener/index.md)): Deferred&lt;[List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;[ExportResultData](../../com.banuba.sdk.export.data/-export-result-data/index.md)&gt;&gt;
